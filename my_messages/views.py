@@ -16,7 +16,7 @@ class MessageListView(APIView):
         messages = Message.objects.all()
         latest = request.GET.get('latest')
         if latest:
-            messages = messages.filter(timestamp__gte=latest)
+            messages = messages.filter(timestamp__gt=latest)
 
         message_list = MessageListSerializer(messages, many=True).data
 
