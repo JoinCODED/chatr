@@ -1,7 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Message(models.Model):
-    username = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.CharField(max_length=200)
     timestamp = models.DateTimeField(auto_now_add=True)
 
