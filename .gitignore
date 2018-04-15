@@ -15,3 +15,4 @@ tests/report/
 db.sqlite3*
 .ropeproject
 .vscode
+.ropeproject

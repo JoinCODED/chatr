@@ -16,7 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from my_messages.views import (
+    UserLoginAPIView,
+    UserCreateAPIView
+)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', UserLoginAPIView.as_view(), name='login'),
+    path('register/', UserCreateAPIView.as_view(), name='register'),
     path('channels/', include('my_messages.urls')),
 ]

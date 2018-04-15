@@ -12,6 +12,4 @@ urlpatterns = [
     path('create/', ChannelCreateAPIView.as_view(), name='channel-create'),
     path('<int:channel_id>/', MessageListView.as_view(), name='message-list'),
     path('<int:channel_id>/create/', MessageCreateView.as_view(), name='message-create'),
-    path('login/', UserLoginAPIView.as_view(), name='login'),
-    path('register/', UserCreateAPIView.as_view(), name='register'),
 ]
