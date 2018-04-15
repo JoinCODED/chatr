@@ -2,17 +2,20 @@ from .serializers import (
     MessageListSerializer,
     MessageCreateSerializer,
     UserCreateSerializer,
-    UserLoginSerializer
+    UserLoginSerializer,
+    ChannelSerializer,
 )
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.response import Response
-from .models import Message
+from .models import Message, Channel
 
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
+
+from rest_framework.permissions import IsAuthenticated
 
 class UserLoginAPIView(APIView):
     serializer_class = UserLoginSerializer
@@ -28,12 +31,43 @@ class UserLoginAPIView(APIView):
 class UserCreateAPIView(CreateAPIView):
     serializer_class = UserCreateSerializer
 
-class MessageCreateView(CreateAPIView):
+
+class ChannelCreateAPIView(CreateAPIView):
+    serializer_class = ChannelSerializer
+    permission_classes = [IsAuthenticated,]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+class ChannelListAPIView(ListAPIView):
+    serializer_class = ChannelSerializer
+    queryset = Channel.objects.all()
+
+
+class MessageCreateView(APIView):
     serializer_class = MessageCreateSerializer
+    permission_classes = [IsAuthenticated,]
+
+    def post(self, request, channel_id):
+        my_data = request.data
+        serializer = self.serializer_class(data=my_data)
+        if serializer.is_valid():
+            valid_data = serializer.data
+            new_data = {
+            'message':valid_data['message'],
+            'user': request.user,
+            'channel':Channel.objects.get(id=channel_id)
+            }
+            Message.objects.create(**new_data)
+            return Response(valid_data, status=HTTP_200_OK)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 class MessageListView(APIView):
-    def get(self, request, format=None):
-        messages = Message.objects.all()
+    permission_classes = [IsAuthenticated,]
+    
+    def get(self, request, channel_id):
+        messages = Message.objects.filter(channel=Channel.objects.get(id=channel_id))
         latest = request.GET.get('latest')
         if latest:
             messages = messages.filter(timestamp__gt=latest)
