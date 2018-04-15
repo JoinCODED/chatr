@@ -65,7 +65,7 @@ class MessageCreateView(APIView):
 
 class MessageListView(APIView):
     permission_classes = [IsAuthenticated,]
-    
+
     def get(self, request, channel_id):
         messages = Message.objects.filter(channel=Channel.objects.get(id=channel_id))
         latest = request.GET.get('latest')
