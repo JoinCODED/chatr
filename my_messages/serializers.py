@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Message
+from .models import Message, Channel
 from django.contrib.auth.models import User
 from rest_framework_jwt.settings import api_settings
 
@@ -34,10 +34,16 @@ class MessageListSerializer(serializers.ModelSerializer):
         model = Message
         fields = '__all__'
 
+class ChannelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Channel
+        fields = ['name']
+
 class MessageCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        exclude = ['timestamp',]
+        fields = ['message']
+        # fields = '__all__'
 
 class UserCreateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
