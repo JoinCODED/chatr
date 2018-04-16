@@ -24,6 +24,6 @@ from my_messages.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', UserLoginAPIView.as_view(), name='login'),
-    path('register/', UserCreateAPIView.as_view(), name='register'),
+    path('signup/', UserCreateAPIView.as_view(), name='register'),
     path('channels/', include('my_messages.urls')),
 ]
