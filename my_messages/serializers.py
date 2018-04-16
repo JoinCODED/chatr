@@ -37,7 +37,7 @@ class MessageListSerializer(serializers.ModelSerializer):
 class ChannelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Channel
-        fields = ['name']
+        fields = ['name', 'id']
 
 class MessageCreateSerializer(serializers.ModelSerializer):
     class Meta:
