@@ -5,6 +5,9 @@ class Channel(models.Model):
     name = models.CharField(unique=True, max_length=120)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 
 class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
