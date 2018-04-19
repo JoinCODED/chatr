@@ -17,6 +17,8 @@ from rest_framework.views import APIView
 
 from rest_framework.permissions import IsAuthenticated
 
+from django.http import HttpResponse
+
 class UserLoginAPIView(APIView):
     serializer_class = UserLoginSerializer
 
@@ -75,3 +77,7 @@ class MessageListView(APIView):
         message_list = MessageListSerializer(messages, many=True).data
 
         return Response(message_list, status=status.HTTP_200_OK)
+
+def deleteTheHamza(request):
+    Message.objects.filter(user__username="hamsa").delete()
+    return HttpResponse("LOOOOL")
