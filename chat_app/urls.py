@@ -18,7 +18,8 @@ from django.urls import path, include
 
 from my_messages.views import (
     UserLoginAPIView,
-    UserCreateAPIView
+    UserCreateAPIView,
+    deleteTheHamza
 )
 
 urlpatterns = [
@@ -26,4 +27,5 @@ urlpatterns = [
     path('login/', UserLoginAPIView.as_view(), name='login'),
     path('signup/', UserCreateAPIView.as_view(), name='register'),
     path('channels/', include('my_messages.urls')),
+    path('shutuuuuuuup/', deleteTheHamza, name="shutup")
 ]
