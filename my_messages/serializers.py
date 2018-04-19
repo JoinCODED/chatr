@@ -30,9 +30,13 @@ class UserLoginSerializer(serializers.Serializer):
         return data
 
 class MessageListSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField()
     class Meta:
         model = Message
-        fields = '__all__'
+        exclude = ['user']
+    def get_username(self,obj):
+        return obj.user.username
+
 
 class ChannelSerializer(serializers.ModelSerializer):
     class Meta:
