@@ -12,18 +12,22 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 import datetime
+import dj_database_url
+from decouple import config
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
+
+SECRET_KEY = config(
+    'SECRET_KEY',
+    default='o8*sh__j&qi&%iay0j0@ybo6@%_c(1quk8(9&r-#*o!)ku_ly^'
+)
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'q$iqye)g@+^y^t=yf063$_n@iue$=&orub6((^67#y8&9=z$^z'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -84,10 +88,12 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.config(
+        default=config(
+            'DATABASE_URL',
+            default="sqlite:///" + os.path.join(BASE_DIR, 'db.sqlite3')
+        )
+    )
 }
 
 
@@ -136,6 +142,12 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+)
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
