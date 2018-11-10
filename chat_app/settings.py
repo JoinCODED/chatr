@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'channels',
     'my_messages',
     'rest_framework',
     'corsheaders',
@@ -76,6 +76,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'chat_app.wsgi.application'
+
+ASGI_APPLICATION = "chat_app.routing.application"
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
