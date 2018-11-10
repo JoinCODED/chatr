@@ -3,6 +3,7 @@ from .models import Message, Channel
 from django.contrib.auth.models import User
 from rest_framework_jwt.settings import api_settings
 
+
 class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True)
@@ -18,7 +19,8 @@ class UserLoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("This username does not exist")
 
         if not user_obj.check_password(my_password):
-            raise serializers.ValidationError("Incorrect username/password combination! Noob..")
+            raise serializers.ValidationError(
+                "Incorrect username/password combination! Noob..")
 
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
         jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -29,12 +31,15 @@ class UserLoginSerializer(serializers.Serializer):
         data["token"] = token
         return data
 
+
 class MessageListSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()
+
     class Meta:
         model = Message
         exclude = ['user']
-    def get_username(self,obj):
+
+    def get_username(self, obj):
         return obj.user.username
 
 
@@ -43,11 +48,13 @@ class ChannelSerializer(serializers.ModelSerializer):
         model = Channel
         fields = ['name', 'id']
 
+
 class MessageCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = ['message']
         # fields = '__all__'
+
 
 class UserCreateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)

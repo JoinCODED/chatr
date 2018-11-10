@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Channel(models.Model):
     name = models.CharField(unique=True, max_length=120)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -19,4 +20,4 @@ class Message(models.Model):
         return f'{self.user.username} said {self.message}'
 
     class Meta:
-        ordering=['timestamp']
+        ordering = ['timestamp']
