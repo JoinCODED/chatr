@@ -46,7 +46,7 @@ class MessageListSerializer(serializers.ModelSerializer):
 class ChannelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Channel
-        fields = ['name', 'id']
+        fields = ['name', 'id', 'image_url']
 
 
 class MessageCreateSerializer(serializers.ModelSerializer):

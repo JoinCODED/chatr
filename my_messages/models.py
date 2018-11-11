@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 class Channel(models.Model):
     name = models.CharField(unique=True, max_length=120)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    image_url = models.URLField(null=True, blank=True)
 
     def __str__(self):
         return self.name
