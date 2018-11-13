@@ -31,22 +31,21 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from WebSocket
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
+        print(text_data_json)
         message = text_data_json['message']
-        if not self.user.is_anonymous:
-            # Send message to room group
-            async_to_sync(self.channel_layer.group_send)(
-                self.room_group_name,
-                {
-                    'type': 'chat_message',
-                    'message': message
-                }
-            )
+        # Send message to room group
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_group_name,
+            {
+                'type': 'chat_message',
+                'message': message
+            }
+        )
 
     # Receive message from room group
     def chat_message(self, event):
         message = event['message']
-        if not self.user.is_anonymous:
-            # Send message to WebSocket
-            self.send(text_data=json.dumps({
-                'message': message
-            }))
+        # Send message to WebSocket
+        self.send(text_data=json.dumps({
+            'message': message
+        }))

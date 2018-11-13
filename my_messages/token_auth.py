@@ -1,5 +1,6 @@
 from channels.auth import AuthMiddlewareStack
 from django.contrib.auth.models import AnonymousUser
+from django.core.exceptions import ValidationError
 from rest_framework_jwt.serializers import VerifyJSONWebTokenSerializer
 
 
@@ -12,20 +13,18 @@ class TokenAuthMiddleware:
         self.inner = inner
 
     def __call__(self, scope):
-        headers = dict(scope['headers'])
-        scope['user'] = AnonymousUser()
-        if b'authorization' in headers:
+        query_string = scope['query_string'].decode()
+        if 'token' in query_string:
             try:
-                token_name, token_key = headers[b'authorization'].decode(
-                ).split()
-
-                if token_name == 'jwt':
-                    data = {'token': token_key}
-                    token = VerifyJSONWebTokenSerializer().validate(data)
-                    scope['user'] = token['user']
-                    print(token)
+                token_key = query_string.split('=')[1]
+                data = {'token': token_key}
+                token = VerifyJSONWebTokenSerializer().validate(data)
+                scope['user'] = token['user']
+                print(token)
             except:
-                scope['user'] = AnonymousUser()
+                raise ValidationError("No token provided")
+        else:
+            raise ValidationError("No token provided")
         return self.inner(scope)
 
 
