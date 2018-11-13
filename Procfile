@@ -1,1 +1,2 @@
-web: gunicorn chat_app.wsgi --log-file -
+web: daphne chat_app.asgi:channel_layer --port $PORT --bind 0.0.0.0 -v2
+worker: python manage.py runworker -v2
