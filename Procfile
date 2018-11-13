@@ -1,2 +1,2 @@
-web: daphne chat_app.asgi:channel_layer --port 80 --bind 0.0.0.0 -v2
+web: daphne -p 80 chat_app.asgi:application
 worker: python manage.py runworker -v2
