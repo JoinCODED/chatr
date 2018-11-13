@@ -19,6 +19,9 @@ from rest_framework.permissions import IsAuthenticated
 
 from django.http import HttpResponse
 
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+
 
 class UserLoginAPIView(APIView):
     serializer_class = UserLoginSerializer
@@ -65,6 +68,14 @@ class MessageCreateView(APIView):
                 'channel': Channel.objects.get(id=channel_id)
             }
             Message.objects.create(**new_data)
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                'chat_%s' % channel_id,
+                {
+                    'type': 'chat_message',
+                    'message': valid_data['message']
+                }
+            )
             return Response(valid_data, status=HTTP_200_OK)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
