@@ -67,13 +67,15 @@ class MessageCreateView(APIView):
                 'user': request.user,
                 'channel': Channel.objects.get(id=channel_id)
             }
-            Message.objects.create(**new_data)
+            created_message = Message.objects.create(**new_data)
             channel_layer = get_channel_layer()
             async_to_sync(channel_layer.group_send)(
                 'chat_%s' % channel_id,
                 {
                     'type': 'chat_message',
-                    'message': valid_data['message']
+                    'message': created_message.message,
+                    'username': created_message.user.username,
+                    'timestamp': str(created_message.timestamp)
                 }
             )
             return Response(valid_data, status=HTTP_200_OK)
