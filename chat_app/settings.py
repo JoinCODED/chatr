@@ -18,16 +18,14 @@ from decouple import config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = config(
-    'SECRET_KEY',
-    default='o8*sh__j&qi&%iay0j0@ybo6@%_c(1quk8(9&r-#*o!)ku_ly^'
-)
-DEBUG = config('DEBUG', default=False, cast=bool)
+SECRET_KEY = 'o8*sh__j&qi&%iay0j0@ybo6@%_c(1quk8(9&r-#*o!)ku_ly^'
 
+# DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = False
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['134.209.234.69']
 
 
 # Application definition
@@ -98,12 +96,29 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
+    if(DEBUG){
     'default': dj_database_url.config(
         default=config(
             'DATABASE_URL',
             default="sqlite:///" + os.path.join(BASE_DIR, 'db.sqlite3')
         )
-    )
+        }else{
+       
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                'NAME': 'django',
+                'USER': 'django',
+                'PASSWORD': 'c1456fbb5ad1115c4799913ee38c365a',
+                'HOST': 'localhost',
+                'PORT': '',
+            }
+        
+        }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
+    
 }
 
 
@@ -156,8 +171,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

@@ -15,7 +15,7 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import (AllowAny, IsAuthenticated)
 
 from django.http import HttpResponse
 
@@ -50,12 +50,12 @@ class ChannelCreateAPIView(CreateAPIView):
 class ChannelListAPIView(ListAPIView):
     serializer_class = ChannelSerializer
     queryset = Channel.objects.all()
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [AllowAny, ]
 
 
 class MessageCreateView(APIView):
     serializer_class = MessageCreateSerializer
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [AllowAny, ]
 
     def post(self, request, channel_id):
         my_data = request.data
@@ -83,7 +83,7 @@ class MessageCreateView(APIView):
 
 
 class MessageListView(APIView):
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [AllowAny, ]
 
     def get(self, request, channel_id):
         messages = Message.objects.filter(

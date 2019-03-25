@@ -11,7 +11,6 @@ class ChatConsumer(WebsocketConsumer):
     def connect(self):
         self.channel_id = int(self.scope['url_route']['kwargs']['channel_id'])
         self.user = self.scope["user"]
-
         self.room_group_name = 'chat_%s' % self.channel_id
 
         # Join room group
@@ -24,6 +23,7 @@ class ChatConsumer(WebsocketConsumer):
 
     def disconnect(self, close_code):
         # Leave room group
+        print("say smth")
         async_to_sync(self.channel_layer.group_discard)(
             self.room_group_name,
             self.channel_name
@@ -33,7 +33,7 @@ class ChatConsumer(WebsocketConsumer):
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
-
+        print("fafga")
         serializer = MessageCreateSerializer(data=text_data_json)
         if serializer.is_valid():
             valid_data = serializer.data
