@@ -51,7 +51,7 @@ class ChannelListAPIView(ListAPIView):
 
 
 class MessageCreateView(APIView):
-    serializer_class = MessageCreateSerializer
+    serializer_class = MessageListSerializer
     permission_classes = [IsAuthenticated, ]
 
     def post(self, request, channel_id):
