@@ -44,7 +44,7 @@ class MessageListSerializer(serializers.ModelSerializer):
 
 
 class ChannelSerializer(serializers.ModelSerializer):
-    owner = serializers.SerializerMethodField(source="owner.username")
+    owner = serializers.ReadOnlyField(source="owner.username")
     class Meta:
         model = Channel
         fields = ['name', 'owner', 'id', 'image_url']
