@@ -55,7 +55,7 @@ class MessageCreateSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Message
-        fields = ['message']
+        fields = ['message', 'username']
         # fields = '__all__'
 
 
