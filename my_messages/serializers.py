@@ -58,7 +58,7 @@ class MessageCreateSerializer(serializers.ModelSerializer):
         fields = ['message', 'username']
     
     def get_username(self, obj):
-        return obj.user.username
+        return self.request.user.username
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
