@@ -1,5 +1,6 @@
 from .serializers import (
     MessageListSerializer,
+    MessageCreateSerializer,
     UserCreateSerializer,
     UserLoginSerializer,
     ChannelSerializer,
@@ -50,7 +51,7 @@ class ChannelListAPIView(ListAPIView):
 
 
 class MessageCreateView(APIView):
-    serializer_class = MessageListSerializer
+    serializer_class = MessageCreateSerializer
     permission_classes = [IsAuthenticated, ]
 
     def post(self, request, channel_id):
