@@ -50,15 +50,10 @@ class ChannelSerializer(serializers.ModelSerializer):
         fields = ['name', 'owner', 'id', 'image_url']
 
 
-class MessageCreateSerializer(serializers.ModelSerializer):
-    username = serializers.SerializerMethodField()
-    
+class MessageCreateSerializer(serializers.ModelSerializer):    
     class Meta:
         model = Message
-        fields = ['message', 'username']
-    
-    def get_username(self, obj):
-        return self.request.user.username
+        fields = ['message']
 
 
 class UserCreateSerializer(serializers.ModelSerializer):

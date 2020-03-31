@@ -65,7 +65,7 @@ class MessageCreateView(APIView):
                 'channel': Channel.objects.get(id=channel_id)
             }
             Message.objects.create(**new_data)
-            return Response(valid_data, status=HTTP_200_OK)
+            return Response(new_data, status=HTTP_200_OK)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
