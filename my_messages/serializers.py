@@ -51,6 +51,8 @@ class ChannelSerializer(serializers.ModelSerializer):
 
 
 class MessageCreateSerializer(serializers.ModelSerializer):
+    username = serializers.ReadOnlyField(source="user.username")
+    
     class Meta:
         model = Message
         fields = ['message']
