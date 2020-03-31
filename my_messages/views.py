@@ -1,6 +1,5 @@
 from .serializers import (
     MessageListSerializer,
-    MessageCreateSerializer,
     UserCreateSerializer,
     UserLoginSerializer,
     ChannelSerializer,
