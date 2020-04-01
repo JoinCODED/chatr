@@ -80,6 +80,7 @@ class MessageListView(APIView):
     def get(self, request, channel_id):
         print(request.user.username);
         print(datetime.now())
+        print(channel_id)
         messages = Message.objects.filter(
             channel=Channel.objects.get(id=channel_id))
         latest = request.GET.get('latest')
