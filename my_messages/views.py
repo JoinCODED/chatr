@@ -5,6 +5,8 @@ from .serializers import (
     UserLoginSerializer,
     ChannelSerializer,
 )
+
+from datetime import datetime
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, ListAPIView
@@ -76,6 +78,8 @@ class MessageListView(APIView):
     permission_classes = [IsAuthenticated, ]
 
     def get(self, request, channel_id):
+        print(request.user.username);
+        print(datetime.now())
         messages = Message.objects.filter(
             channel=Channel.objects.get(id=channel_id))
         latest = request.GET.get('latest')
