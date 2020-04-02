@@ -66,10 +66,11 @@ class MessageCreateView(APIView):
                 'user': request.user,
                 'channel': Channel.objects.get(id=channel_id)
             }
-            Message.objects.create(**new_data)
+            new_message = Message.objects.create(**new_data)
             return Response({
                 'message': valid_data['message'],
-                'username': request.user.username
+                'username': request.user.username,
+                'timestamp': new_message.timestamp
             }, status=HTTP_200_OK)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
